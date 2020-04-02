@@ -94,7 +94,7 @@
         />
 
     <TextView
-        android:id="@+id/quantidadeValueTextView"
+        android:id="@+id/confirmadosValueTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -109,6 +109,15 @@
         android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/mortosLabelTextView"
         app:layout_constraintStart_toEndOf="@+id/mortosLabelTextView"
+        />
+
+    <TextView
+        android:id="@+id/curadosValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/curadosLabelTextView"
+        app:layout_constraintStart_toEndOf="@+id/curadosLabelTextView"
         />
 
 
