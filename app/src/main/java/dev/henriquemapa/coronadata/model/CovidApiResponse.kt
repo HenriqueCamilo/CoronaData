@@ -7,5 +7,5 @@ data class CovidApiResponse(
     @SerializedName("count")
     val count: Int,
     @SerializedName("result")
-    val result: Result
+    val result: Map<String, Date>
 )

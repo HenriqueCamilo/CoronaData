@@ -3,7 +3,6 @@ package dev.henriquemapa.coronadata
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -15,8 +14,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
+import java.util.*
+import dev.henriquemapa.coronadata.model.getPaises
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +29,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var confirmadosValueTextView: TextView
     private lateinit var mortosValueTextView: TextView
     private lateinit var curadosValuetextView: TextView
+    private lateinit var dataValuetextView: TextView
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -41,21 +43,23 @@ class MainActivity : AppCompatActivity() {
         this.confirmadosValueTextView = findViewById(R.id.confirmadosValueTextView)
         this.mortosValueTextView = findViewById(R.id.mortosValueTextView)
         this.curadosValuetextView = findViewById(R.id.curadosValueTextView)
+        this.dataValuetextView = findViewById(R.id.dataValueTextView)
+        var result: Map<Map>
 
         val button: Button = findViewById(R.id.button)
-        button.setOnClickListener(View.OnClickListener { getCoronaData() })
+        button.setOnClickListener{ getCoronaData(result) }
 
 
     }
 
-    private fun getCoronaData() {
+    private fun getCoronaData(result: Any) {
         val retrofit = Retrofit.Builder().baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val service = retrofit.create(CovidInterface::class.java)
 
-        val call = service.getCoronaCasesByCountry(paisEditText.text.toString())
+        val call = service.getCoronaCasesByCountry(result.toString())
 
         call.enqueue(object : Callback<CovidApiResponse>{
             override fun onFailure(call: Call<CovidApiResponse>?, t: Throwable?) {
@@ -70,13 +74,29 @@ class MainActivity : AppCompatActivity() {
                 if(response?.code() == 200){
                     val responseCovidData = response.body()!!
 
+                    var calendar = Calendar.getInstance()
+                    calendar.add(Calendar.DAY_OF_WEEK, -1)
+
+                    var formatter: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+                    val todayString = formatter.format(calendar.time)
+
                     paisValueTextView.text = paisEditText.text
-                    confirmadosValueTextView.text = responseCovidData.result.Date.confirmed.toString()
-                    mortosValueTextView.text = responseCovidData.result.Date.deaths.toString()
-//                    val current = LocalDateTime.now()
-//                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-//                    curadosValuetextView.text = current.format(formatter).toString()
-                    curadosValuetextView.text = responseCovidData.result.Date.recovered.toString()
+                    confirmadosValueTextView.text = responseCovidData.result.get(todayString)?.confirmed.toString()
+                    mortosValueTextView.text = responseCovidData.result.get(todayString)?.deaths.toString()
+                    curadosValuetextView.text = responseCovidData.result.get(todayString)?.recovered.toString()
+                    val formatter2 = SimpleDateFormat("dd-MM-yyyy")
+                    val todayStringFormated = formatter2.format(calendar.time)
+                    dataValuetextView.text = todayStringFormated.toString()
+//
+//////                    val current = LocalDateTime.now()
+//////
+//////
+////                    curadosValuetextView.text = responseCovidData.result.toString()
+//
+//
+////                    var calendar = Calendar.getInstance()
+////                    calendar.add(Calendar.DAY_OF_WEEK, -1 )
+//                    dataValuetextView.text = todayString
                 }
             }
 

@@ -85,6 +85,30 @@
         />
 
     <TextView
+        android:id="@+id/dataLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Data: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/curadosLabelTextView"
+        />
+
+    <TextView
+        android:id="@+id/alphaLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:text="Utilizar o codigo alpha 3 da
+        ISO 3166-1\n exemplo: Brasil = BRA; Estados Unidos = USA;\n Italia = ITA\n Para mais exemplos veja:\n https://pt.wikipedia.org/wiki/ISO_3166-1_alfa-3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dataLabelTextView"
+        />
+
+
+    <TextView
         android:id="@+id/paisValueTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -118,6 +142,15 @@
         android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/curadosLabelTextView"
         app:layout_constraintStart_toEndOf="@+id/curadosLabelTextView"
+        />
+
+    <TextView
+        android:id="@+id/dataValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/dataLabelTextView"
+        app:layout_constraintStart_toEndOf="@+id/dataLabelTextView"
         />
 
 
